@@ -53,3 +53,7 @@ SELECT player_id as p, MIN(event_date) as ed from Activity GROUP BY player_id) a
 SELECT player_id, device_id from Activity
 WHERE (player_id, event_date) IN (
 SELECT player_id, MIN(event_date) from Activity GROUP BY player_id);
+
+
+select distinct player_id, first_value(device_id) over (partition by player_id order by event_date) device_id
+from Activity;
