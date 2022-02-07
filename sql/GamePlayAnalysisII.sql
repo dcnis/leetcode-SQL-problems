@@ -49,3 +49,7 @@ Output:
 SELECT player_id, device_id from Activity INNER JOIN (
 SELECT player_id as p, MIN(event_date) as ed from Activity GROUP BY player_id) as t
   ON Activity.player_id = p AND Activity.event_date = ed;
+
+SELECT player_id, device_id from Activity
+WHERE (player_id, event_date) IN (
+SELECT player_id, MIN(event_date) from Activity GROUP BY player_id);
