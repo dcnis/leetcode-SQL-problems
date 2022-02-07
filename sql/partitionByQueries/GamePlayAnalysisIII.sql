@@ -62,3 +62,11 @@ Note that for each player we only care about the days when the player logged in.
 select player_id, event_date,
 sum(games_played) over (partition by player_id order by event_date) as games_played_so_far
 from Activity;
+
+
+select a1.player_id, a1.event_date, sum(a2.games_played) as 'games_played_so_far' from
+Activity a1
+inner join Activity a2
+ON a1.event_date >= a2.event_date
+AND a1.player_id = a2.player_id
+group by a1.player_id, a1.event_date;
