@@ -21,3 +21,11 @@ WITH countLogins AS (
 countTotalPlayers AS (
   select count(distinct(player_id)) as totalAmountOfPlayer from Activity
 ) select ROUND(countPlayer/totalAmountOfPlayer, 2) as fraction from countLogins, countTotalPlayers;
+
+
+select ROUND(count(t2.player_id)/count(t1.player_id),2) from
+(
+SELECT player_id, MIN(event_date) AS first_login FROM Activity GROUP BY player_id) as t1
+LEFT JOIN Activity as t2
+ON t1.player_id = t2.player_id
+AND t1.first_login = t2.event_date-1;
